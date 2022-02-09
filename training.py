@@ -2,41 +2,49 @@ from sklearn.ensemble import RandomForestClassifier
 import argparse
 import os
 import numpy as np
-from sklearn.metrics import mean_squared_error
 import joblib
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import OneHotEncoder
 import pandas as pd
 from azureml.core.run import Run
-from azureml.data.dataset_factory import TabularDatasetFactory
-
+from azureml.core.workspace import Workspace
 
 def main():
+
+    ws = Workspace.from_config()
+
+    key = "Mobile Phone Data"
+
+    dataset = ws.datasets[key] 
+
+    ds = dataset.to_pandas_dataframe()
+
     # Add arguments to script
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--C', type=float, default=1.0, help="Inverse of regularization strength. Smaller values cause stronger regularization")
-    parser.add_argument('--max_iter', type=int, default=100, help="Maximum number of iterations to converge")
+    parser.add_argument('--n_estimators', type=int, default=100, help="n_estimators")
+    parser.add_argument('--criterion', type=str, default='gini', help="criterion")
+    parser.add_argument('--max_depth', type=int, default=1, help="max depth")
 
     args = parser.parse_args()
 
     run = Run.get_context()
 
-    run.log("Regularization Strength:", np.float(args.C))
-    run.log("Max iterations:", np.int(args.max_iter))
+    run.log("n_estimators:", np.int(args.n_estimators))
+    run.log("criterion:", np.str(args.criterion))
+    run.log("max_depth:", np.int(args.max_depth))
 
-    ds = TabularDatasetFactory.from_delimited_files(
-        path="https://automlsamplenotebookdata.blob.core.windows.net/automl-sample-notebook-data/bankmarketing_train.csv"
-    )
-    
-    x, y = clean_data(ds)
+    y = ds.pop['price_range']
 
-    x_train, x_test, y_train, y_test = train_test_split(x,y,test_size=0.1)
+    x_train, x_test, y_train, y_test = train_test_split(ds,y,test_size=0.1)
 
-    model = LogisticRegression(C=args.C, max_iter=args.max_iter).fit(x_train, y_train)
+    model = RandomForestClassifier(
+        n_estimators=args.n_estimators,
+        criterion=args.criterion,
+        max_depth=args.max_depth
+        ).fit(x_train, y_train)
 
     os.makedirs('outputs', exist_ok=True)
-    joblib.dump(value=model, filename='./outputs/model.pkl')
+    joblib.dump(value=model, filename='./outputs/hyper_model.pkl')
     
     accuracy = model.score(x_test, y_test)
     run.log("Accuracy", np.float(accuracy))
