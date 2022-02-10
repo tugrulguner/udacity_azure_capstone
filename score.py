@@ -1,11 +1,12 @@
 import json
 import numpy as np
-import os
+import sklearn
+import joblib
 
 def init():
     
     global model
-    model = json.load('./outputs/model/automl_best_model.pkl')
+    model = joblib.load('./outputs/model/automl_best_model.pkl')
 
 def run(input_data):
     
@@ -14,4 +15,4 @@ def run(input_data):
     # make prediction
     out = model.predict(data)
 
-    return out.tolist()
+    return out
