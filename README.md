@@ -1,5 +1,3 @@
-*NOTE:* This file is a template that you can use to create the README for your project. The *TODO* comments below will highlight the information you should be sure to include.
-
 ## Mobile Phone Price Range
 
 In this project, I will try to find the best model and parameters for Mobile price classification problem using Azure AutoML and HyperDrive modules. Then, I will deploy the best model. With this project, using various mobile data, one will be able to estimate the price range of desired mobile price by providing desired features. I perform two different approaches to find the best model for this price range classification problem. 
