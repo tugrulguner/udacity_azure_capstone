@@ -7,7 +7,7 @@ In this project, I will try to find the best model and parameters for Mobile pri
 ## Dataset
 
 ### Overview
-I am using Mobile price classification dataset from Kaggle (https://www.kaggle.com/iabhishekofficial/mobile-price-classification)[Kaggle Link] as an external dataset. 
+I am using Mobile price classification dataset from Kaggle [Kaggle Link](https://www.kaggle.com/iabhishekofficial/mobile-price-classification) as an external dataset. 
 
 ### Task
 This dataset contains 20 features of a mobile phone including battery power, dual sim, clock speed, 4G, memory, etc. With given features, target, which is price range, will bep redicted as a classification problem, where value of 0(low cost), 1(medium cost), 2(high cost) and 3(very high cost). So, by entering desired 20 features, one can predict the possible price range of the desired mobile.
@@ -96,5 +96,5 @@ Here is the dmeonstration of model prediction from the endpoint
 
 ## Screen Recording
 Link for the screencast is:
-(https://drive.google.com/file/d/1AAN5ZHg8FthHB9wemlWKFrHnQIKJlbBW/view?usp=sharing)[Screencast Link]
+[Screencast Link](https://drive.google.com/file/d/1AAN5ZHg8FthHB9wemlWKFrHnQIKJlbBW/view?usp=sharing)
 
